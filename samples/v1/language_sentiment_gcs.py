@@ -41,7 +41,7 @@ def sample_analyze_sentiment(gcs_content_uri):
     # gcs_content_uri = 'gs://cloud-samples-data/language/sentiment-positive.txt'
 
     # Available types: PLAIN_TEXT, HTML
-    type_ = language_v1.Document.Type.PLAIN_TEXT
+    type_ = language_v1.Document.Type.HTML
 
     # Optional. If not specified, the language is automatically detected.
     # For list of supported languages:
@@ -55,39 +55,7 @@ def sample_analyze_sentiment(gcs_content_uri):
     response = client.analyze_sentiment(request = {'document': document, 'encoding_type': encoding_type})
     # Get overall sentiment of the input document
     print(u"Document sentiment score: {}".format(response.document_sentiment.score))
-    print(
-        u"Document sentiment magnitude: {}".format(
-            response.document_sentiment.magnitude
-        )
-    )
-    # Get sentiment for all sentences in the document
-    for sentence in response.sentences:
-        print(u"Sentence text: {}".format(sentence.text.content))
-        print(u"Sentence sentiment score: {}".format(sentence.sentiment.score))
-        print(u"Sentence sentiment magnitude: {}".format(sentence.sentiment.magnitude))
+    print(u"Document sentiment magnitude: {}".format(response.document_sentiment.magnitude))
 
-    # Get the language of the text, which will be the same as
-    # the language specified in the request or, if not specified,
-    # the automatically-detected language.
-    print(u"Language of the text: {}".format(response.language))
-
-
-# [END language_sentiment_gcs]
-
-
-def main():
-    import argparse
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--gcs_content_uri",
-        type=str,
-        default="gs://cloud-samples-data/language/sentiment-positive.txt",
-    )
-    args = parser.parse_args()
-
-    sample_analyze_sentiment(args.gcs_content_uri)
-
-
-if __name__ == "__main__":
-    main()
+    
+sample_analyze_sentiment(gcs_content_uri)
